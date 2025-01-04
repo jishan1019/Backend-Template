@@ -11,13 +11,13 @@ const loginUserFromDb = async (payload: TAuth) => {
   const user = await UserModel.findOne({
     email: payload?.email,
     isDeleted: false,
-  });
+  }).select("+password");
 
   if (!user) {
     throw new AppError(httpStatus.BAD_REQUEST, "User not found");
   }
 
-  const isPasswordMatch = UserModel.isPasswordMatch(
+  const isPasswordMatch = await UserModel.isPasswordMatch(
     user?.password,
     payload?.password
   );
@@ -45,6 +45,8 @@ const loginUserFromDb = async (payload: TAuth) => {
     config.jwt_refresh_secret as string,
     config.jwt_refresh_expire_time as string
   );
+
+  user.password = ""
 
   return {
     accessToken,
