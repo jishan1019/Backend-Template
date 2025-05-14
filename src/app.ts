@@ -4,6 +4,7 @@ import cors from "cors";
 import router from "./app/routes";
 import notFound from "./app/middlewares/notFound";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
+//import rateLimit from "express-rate-limit";
 
 
 const app = express();
@@ -13,6 +14,26 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.text());
 app.use(cors());
+
+// const limiter = rateLimit({
+//   windowMs: 1 * 60 * 1000, // 1 minute
+//   max: 20, // allow 100 requests per minute
+//   message: "Too many requests from this IP, please try again later.",
+//   standardHeaders: true,
+//   legacyHeaders: false,
+//   keyGenerator: (req: any) => {
+//     const ip = req.ip || req.connection.remoteAddress || "unknown-ip";
+//     const userAgent = req.headers["user-agent"] || "unknown-agent";
+//     const deviceKey = `${ip}-${userAgent}`;
+
+//     // console.log({ deviceKey });
+
+//     return deviceKey;
+//   },
+// });
+
+
+// app.use(limiter);
 
 
 //Application Routes
